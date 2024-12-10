@@ -7,7 +7,11 @@ import {
   AllowNull,
   PrimaryKey,
   AutoIncrement,
+  ForeignKey,
+  BelongsTo,
 } from "sequelize-typescript";
+import { User } from "./users";
+import { on } from "events";
 @Table({
   timestamps: true,
   tableName: "expense",
@@ -19,7 +23,7 @@ export class Expense extends Model {
   id!: number;
 
   @AllowNull(false)
-  @Column(DataType.INTEGER)
+  @Column(DataType.FLOAT)
   amount!: string;
 
   @AllowNull(false)
@@ -44,4 +48,15 @@ export class Expense extends Model {
   date!: Date;
 
   //userId
+  @AllowNull(false)
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.BIGINT,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  userId!: number;
+
+  @BelongsTo(() => User, "userId")
+  user!: User;
 }

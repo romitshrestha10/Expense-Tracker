@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
-import { User } from "../models";
+import { Expense, User } from "../models";
 
 class UserController {
   async getAllUser(req: Request, res: Response) {
     try {
-      const document = await User.findAll();
+      const document = await User.findAll({
+        include: [Expense],
+      });
       res.status(200).json({ success: true, data: document });
     } catch (error) {
       res

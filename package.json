@@ -6,7 +6,7 @@
      "scripts": {
         "tsc": "tsc",
         "watch": "tsc --watch",
-        "watchs": "nodemon build/server.js",
+        "watchs": "tsc --build --clean && tsc && nodemon build/server.js",
         "test": "jest --config jest.config.ts --coverage",
         "build": "rm -rf build/ && tsc -p tsconfig.build.json",
         "start": "tsc --build --clean && tsc && nodemon build/server.js"

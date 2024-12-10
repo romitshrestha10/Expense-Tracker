@@ -7,7 +7,10 @@ import {
   AllowNull,
   PrimaryKey,
   AutoIncrement,
+  ForeignKey,
+  HasMany,
 } from "sequelize-typescript";
+import { Expense } from "./expenses";
 @Table({
   timestamps: true,
   tableName: "user",
@@ -41,4 +44,7 @@ export class User extends Model {
   @AllowNull(false)
   @Column(DataType.DATE)
   birthday!: Date;
+
+  @HasMany(() => Expense, "userId")
+  expenses!: Expense[];
 }
