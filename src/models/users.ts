@@ -27,6 +27,10 @@ export class User extends Model {
 
   @AllowNull(false)
   @Column(DataType.STRING)
+  role!: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
   username!: string;
 
   @AllowNull(false)

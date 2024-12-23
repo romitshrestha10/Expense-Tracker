@@ -22,7 +22,7 @@ class UserController {
     } catch (error) {
       res
         .status(500)
-        .json({ success: false, message: "Error fetching document" });
+        .json({ success: false, message: "Error adding document" });
     }
   }
 }
