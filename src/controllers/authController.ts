@@ -6,30 +6,56 @@ import { User } from "../models/users";
 
 class AuthController {
   async login(req: Request, res: Response) {
-    const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    try {
+      const { email, password } = req.body;
 
-    if (!user) return res.status(404).json({ error: "User not found" });
+      // Find user by email
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        console.log("User not found for email:", email);
+        return res.status(404).json({ error: "Invalid email or password" });
+      }
 
-    const isPasswordValid = await comparePasswords(password, user.password);
-    if (!isPasswordValid)
-      return res.status(401).json({ error: "Invalid credentials" });
+      // Compare passwords
+      const isPasswordValid = await comparePasswords(password, user.password);
+      console.log("Password comparison result:", isPasswordValid);
 
-    const token = generateToken({ id: user.id, role: user.role });
-    res.json({ token });
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Invalid email or password" });
+      }
+
+      // Generate JWT token
+      const token = generateToken({ id: user.id, role: user.role });
+      res.json({ token });
+    } catch (error) {
+      console.error("Error during login:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 
   async registerUser(req: Request, res: Response) {
     try {
-      const existingUser = await User.findOne({ where: req.body.email });
+      const { name, username, password, gender, email, birthday, role } =
+        req.body;
+      const existingUser = await User.findOne({
+        where: { email: email },
+      });
       if (existingUser) {
         return res.status(400).json({ error: "Email is already registered" });
       }
 
-      const hashedPassword = -(await bcrypt.hash(req.body.password, 10));
+      const hashedPassword = await bcrypt.hash(password, 10);
       req.body.password = hashedPassword;
 
-      const newUser = await User.create({ ...req.body });
+      const newUser = await User.create({
+        name,
+        username,
+        password: hashedPassword,
+        gender,
+        email,
+        birthday,
+        role,
+      });
 
       // Respond with success
       res.status(201).json({

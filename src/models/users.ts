@@ -34,7 +34,7 @@ export class User extends Model {
   username!: string;
 
   @AllowNull(false)
-  @Column(DataType.STRING)
+  @Column(DataType.TEXT)
   password!: string;
 
   @AllowNull(false)

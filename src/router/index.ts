@@ -10,4 +10,4 @@ export const routes = express.Router();
 
 routes.use("/user", user);
 routes.use("/expense", expense);
-router.use("/auth", auth);
+routes.use("/auth", auth);
