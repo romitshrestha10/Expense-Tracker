@@ -8,7 +8,7 @@ const router = Router();
 router.get(
   "/",
   authenticate,
-  authorizeRoles(["admin"]),
+  authorizeRoles(["user"]),
   UserController.getAllUser
 );
 router.post("/", UserController.postUser);

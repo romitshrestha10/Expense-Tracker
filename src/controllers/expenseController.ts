@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { Expense, User } from "../models";
 import { Sequelize } from "sequelize";
+import { Operation } from "../middleware/practiseMiddleware";
+import Calculator from "../middleware/practiseMiddleware";
 
 class ExpenseController {
   async getAllExpense(req: Request, res: Response) {
@@ -72,7 +74,6 @@ class ExpenseController {
 
   async summaryByCategory(req: Request, res: Response) {
     try {
-      console.log(req.params.category);
       const summary = await Expense.findAll({
         attributes: [
           "category",
@@ -80,7 +81,19 @@ class ExpenseController {
         ],
         group: ["category"],
       });
+      // const a = userExpenses(1);
       res.status(200).json({ success: true, data: summary });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error fetching" });
+    }
+  }
+
+  async practise(req: Request, res: Response) {
+    try {
+      const calcu = new Calculator();
+      const operation: Operation = "subtract";
+      const result = calcu[operation](4, 2);
+      res.status(200).json({ success: true, data: result });
     } catch (error) {
       res.status(500).json({ success: false, message: "Error fetching" });
     }
