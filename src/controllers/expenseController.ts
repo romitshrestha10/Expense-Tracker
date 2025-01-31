@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Expense, User } from "../models";
-import { Sequelize } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { Operation } from "../middleware/practiseMiddleware";
 import Calculator from "../middleware/practiseMiddleware";
 
@@ -23,9 +23,7 @@ class ExpenseController {
       const createExpense = await Expense.create({ ...req.body });
       res.status(200).json({ success: true, data: createExpense });
     } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "Error fetching document" });
+      res.status(500).json({ success: false, message: "Error creating" });
     }
   }
 
@@ -85,6 +83,51 @@ class ExpenseController {
       res.status(200).json({ success: true, data: summary });
     } catch (error) {
       res.status(500).json({ success: false, message: "Error fetching" });
+    }
+  }
+
+  async updateRecurringExpense(req: Request, res: Response) {
+    try {
+      const recurringExpenses = await Expense.findAll({
+        where: {
+          type: "recurring",
+          nextDueDate: { [Op.lte]: new Date() },
+        },
+      });
+
+      for (const expense of recurringExpenses) {
+        await expense.update({ status: "completed" });
+
+        let newNextDueDate = new Date(expense.nextDueDate);
+
+        if (expense.frequency === "monthly") {
+          newNextDueDate.setMonth(newNextDueDate.getMonth() + 1);
+        }
+
+        if (expense.frequency === "weekly") {
+          newNextDueDate.setDate(newNextDueDate.getDate() + 7);
+        }
+
+        if (expense.frequency === "daily") {
+          newNextDueDate.setDate(newNextDueDate.getDate() + 1);
+        }
+
+        await Expense.create({
+          userId: expense.userId,
+          amount: expense.amount,
+          category: expense.category,
+          type: "recurring",
+          frequency: expense.frequency,
+          startDate: expense.startDate,
+          nextDueDate: newNextDueDate, // New calculated date
+          status: "active",
+        });
+      }
+
+      res.json({ message: "Recurring expenses updated successfully" });
+    } catch (error) {
+      console.error("Error updating recurring expenses:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 

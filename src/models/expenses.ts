@@ -26,7 +26,7 @@ export class Expense extends Model {
   @Column(DataType.FLOAT)
   amount!: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.STRING)
   description!: string;
 
@@ -35,17 +35,28 @@ export class Expense extends Model {
   category!: string;
 
   @AllowNull(false)
-  @Column(DataType.ENUM("male", "female", "other"))
-  gender!: string;
+  @Column(DataType.STRING)
+  frequency!: string;
 
   @AllowNull(false)
-  @IsEmail
-  @Column(DataType.STRING)
-  email!: string;
+  @Column(DataType.ENUM("one-time", "recurring"))
+  type!: string;
+
+  @AllowNull(false)
+  @Column(DataType.ENUM("active", "completed"))
+  status!: string;
 
   @AllowNull(false)
   @Column(DataType.DATE)
-  date!: Date;
+  startDate!: Date;
+
+  @AllowNull(true)
+  @Column(DataType.DATE)
+  endDate!: Date;
+
+  @AllowNull(false)
+  @Column(DataType.DATE)
+  nextDueDate!: Date;
 
   //userId
   @AllowNull(false)
