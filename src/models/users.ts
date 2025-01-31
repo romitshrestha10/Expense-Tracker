@@ -9,6 +9,7 @@ import {
   AutoIncrement,
   ForeignKey,
   HasMany,
+  Unique,
 } from "sequelize-typescript";
 import { Expense } from "./expenses";
 @Table({
@@ -37,11 +38,20 @@ export class User extends Model {
   @Column(DataType.TEXT)
   password!: string;
 
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  passwordResetToken!: string;
+
+  @AllowNull(true)
+  @Column(DataType.DATE)
+  passwordResetExpires!: Date;
+
   @AllowNull(false)
   @Column(DataType.ENUM("male", "female", "other"))
   gender!: string;
 
   @AllowNull(false)
+  @Unique(true)
   @Column(DataType.STRING)
   email!: string;
 
