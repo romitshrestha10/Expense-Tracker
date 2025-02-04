@@ -39,6 +39,14 @@ export class Expense extends Model {
   frequency!: string;
 
   @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  isShared!: boolean;
+
+  @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  isSettled!: boolean;
+
+  @AllowNull(false)
   @Column(DataType.ENUM("one-time", "recurring"))
   type!: string;
 
