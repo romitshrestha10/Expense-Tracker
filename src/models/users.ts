@@ -59,6 +59,10 @@ export class User extends Model {
   @Column(DataType.DATE)
   birthday!: Date;
 
+  @AllowNull(false)
+  @Column(DataType.FLOAT)
+  pendingAmount!: string;
+
   @HasMany(() => Expense, "userId")
   expenses!: Expense[];
 }
