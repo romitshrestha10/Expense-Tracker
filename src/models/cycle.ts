@@ -27,6 +27,6 @@ export class Cycle extends Model {
   @Column(DataType.DATE)
   endDate!: Date;
 
-  @HasMany(() => Expense, "userId")
+  @HasMany(() => Expense, "expenseId")
   expenses!: Expense[];
 }

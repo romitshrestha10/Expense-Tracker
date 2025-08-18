@@ -24,6 +24,14 @@ export class Summary extends Model {
   @Column(DataType.FLOAT)
   totalAmount!: number;
 
+  @AllowNull(false)
+  @Column(DataType.FLOAT)
+  PendingAmount!: number;
+
+  @AllowNull(false)
+  @Column(DataType.FLOAT)
+  individualExpense!: number;
+
   //userId
   @AllowNull(false)
   @ForeignKey(() => User)

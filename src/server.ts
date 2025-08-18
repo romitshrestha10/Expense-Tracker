@@ -18,7 +18,7 @@ export const Main = () => {
   connection
     .sync()
     .then(() => {
-      console.log("DataBase Synced Sucessfully");
+      console.log("Database Synced Sucessfully");
     })
     .catch((error) => {
       console.log(error.message);

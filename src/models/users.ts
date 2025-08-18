@@ -55,13 +55,13 @@ export class User extends Model {
   @Column(DataType.STRING)
   email!: string;
 
-  @AllowNull(false)
-  @Column(DataType.DATE)
-  birthday!: Date;
-
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.FLOAT)
-  pendingAmount!: string;
+  pendingAmount!: number;
+
+  @AllowNull(true)
+  @Column(DataType.FLOAT)
+  tenantNo!: number;
 
   @HasMany(() => Expense, "userId")
   expenses!: Expense[];

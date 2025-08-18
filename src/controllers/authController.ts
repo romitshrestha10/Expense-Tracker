@@ -14,13 +14,16 @@ class AuthController {
 
       // Find user by email
       const user = await User.findOne({ where: { email } });
+      console.log(user);
       if (!user) {
         console.log("User not found for email:", email);
         return res.status(404).json({ error: "Invalid email or password" });
       }
 
       // Compare passwords
-      const isPasswordValid = await comparePasswords(password, user.password);
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      console.log(password);
+      console.log(user.password);
       console.log("Password comparison result:", isPasswordValid);
 
       if (!isPasswordValid) {

@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
-import { User } from "../models";
+import { Summary, User } from "../models";
 import { Expense } from "../models";
 import { sharedExpense } from "../models/sharedExpenses";
 
@@ -10,6 +10,6 @@ const connection = new Sequelize({
   password: "password",
   database: "expense",
   logging: false,
-  models: [User, Expense, sharedExpense],
+  models: [User, Expense, sharedExpense, Summary],
 });
 export default connection;

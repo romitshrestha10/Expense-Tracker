@@ -11,7 +11,6 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import { User } from "./users";
-import { on } from "events";
 @Table({
   timestamps: true,
   tableName: "expense",
