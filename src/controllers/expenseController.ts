@@ -3,15 +3,14 @@ import { Expense, User } from "../models";
 import { Op, Sequelize } from "sequelize";
 import { Operation } from "../middleware/practiseMiddleware";
 import Calculator from "../middleware/practiseMiddleware";
-import { sharedExpense } from "../models/sharedExpenses";
-import connection from "../db/db";
 
 class ExpenseController {
   async getAllExpense(req: Request, res: Response) {
     try {
       const expense = await Expense.findAll({
-        include: [User],
+        // include: [User],
       });
+      console.log("err");
       res.status(200).json({ success: true, data: expense });
     } catch (error) {
       res
@@ -22,31 +21,7 @@ class ExpenseController {
 
   async postExpense(req: Request, res: Response) {
     try {
-      const transaction = await connection.transaction(); // Ensure atomicity
-
-      const createExpense = await Expense.create(
-        { ...req.body },
-        { transaction }
-      );
-      if (createExpense.isShared === true) {
-        if (!req.body.participants || req.body.participants.length === 0) {
-          await transaction.rollback();
-          return res
-            .status(400)
-            .json({ error: "Participants are required for shared expenses." });
-        }
-
-        const sharedData = req.body.participants.map(
-          (participantId: number) => ({
-            shareAmount: req.body.amount / req.body.participants.length,
-            expenseId: createExpense.id,
-            userId: participantId,
-          })
-        );
-        await sharedExpense.bulkCreate(sharedData, { transaction });
-      }
-
-      await transaction.commit();
+      const createExpense = await Expense.create({ ...req.body });
 
       res.status(200).json({ success: true, data: createExpense });
     } catch (error) {
