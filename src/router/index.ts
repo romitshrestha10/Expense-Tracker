@@ -4,6 +4,7 @@ import user from "./userRoute";
 import expense from "./expenseRoute";
 import auth from "./authRoute";
 import summary from "./summaryRoute";
+import cycle from "./cycleRoute"
 
 import router from "./userRoute";
 
@@ -13,3 +14,4 @@ routes.use("/user", user);
 routes.use("/expense", expense);
 routes.use("/auth", auth);
 routes.use("/summary", summary);
+routes.use("/cycle", cycle)

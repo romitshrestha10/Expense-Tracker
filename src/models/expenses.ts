@@ -11,6 +11,7 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import { User } from "./users";
+import { Cycle } from "./cycle";
 @Table({
   timestamps: true,
   tableName: "expense",
@@ -45,27 +46,19 @@ export class Expense extends Model {
   @Column(DataType.BOOLEAN)
   isSettled!: boolean;
 
-  @AllowNull(false)
-  @Column(DataType.ENUM("one-time", "recurring"))
-  type!: string;
+//  @AllowNull(false)
+//   @Column(DataType.DATE)
+//   startDate!: Date;
 
-  @AllowNull(false)
-  @Column(DataType.ENUM("active", "completed"))
-  status!: string;
+//   @AllowNull(false)
+//   @Column(DataType.DATE)
+//   endDate!: Date;
 
-  @AllowNull(false)
-  @Column(DataType.DATE)
-  startDate!: Date;
-
-  @AllowNull(true)
-  @Column(DataType.DATE)
-  endDate!: Date;
-
-  @AllowNull(false)
-  @Column(DataType.DATE)
-  nextDueDate!: Date;
-
-  //userId
+//   @AllowNull(false)
+//   @Column(DataType.DATE)
+//   nextDueDate!: Date;
+  
+   //userId
   @AllowNull(false)
   @ForeignKey(() => User)
   @Column({
@@ -77,4 +70,18 @@ export class Expense extends Model {
 
   @BelongsTo(() => User, "userId")
   user!: User;
+
+ //cycleId
+  @AllowNull(false)
+  @ForeignKey(() => Cycle)
+  @Column({
+    type: DataType.BIGINT,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  cycleId!: number;
+
+  @BelongsTo(() => Cycle, "cycleId")
+  cycle!: Cycle;
+
 }

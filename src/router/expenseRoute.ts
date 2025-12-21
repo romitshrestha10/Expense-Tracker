@@ -12,7 +12,7 @@ router.get("/scategory/", ExpenseController.summaryByCategory);
 router.get("/practise", ExpenseController.practise);
 
 router.get("/:id", ExpenseController.getOneExpense);
-router.put("/updateRecurring", ExpenseController.updateRecurringExpense);
+// router.put("/updateRecurring", ExpenseController.updateRecurringExpense);
 router.put("/:id", ExpenseController.updateExpense);
 
 router.delete("/", ExpenseController.deleteExpense);

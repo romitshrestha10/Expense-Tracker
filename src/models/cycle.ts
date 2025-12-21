@@ -27,6 +27,16 @@ export class Cycle extends Model {
   @Column(DataType.DATE)
   endDate!: Date;
 
+    @AllowNull(false)
+  @Column(DataType.ENUM("active", "completed"))
+  status!: string;
+
+    @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  isSettled!: boolean;
+  
   @HasMany(() => Expense, "expenseId")
   expenses!: Expense[];
+
+
 }
