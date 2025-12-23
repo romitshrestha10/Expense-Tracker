@@ -24,7 +24,9 @@ class ExpenseController {
 
   async postExpense(req: Request, res: Response) {
     try {
-      const createExpense = await Expense.create({ ...req.body });
+      const createExpense = await Expense.create({ ...req.body,
+        "userId":req.user?.id
+      });
 
       res.status(200).json({ success: true, data: createExpense });
     } catch (error) {

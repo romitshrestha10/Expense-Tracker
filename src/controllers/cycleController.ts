@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Cycle } from "../models";
+import dayjs from "dayjs"
 
 class CycleController {
   async getAllCycle(req: Request, res: Response) {
@@ -15,7 +16,19 @@ class CycleController {
 
   async postCycle(req: Request, res: Response) {
     try {
-      const createCycle = await Cycle.create({ ...req.body });
+        const startDate = req.body.startDate
+        const frequency = req.body.frequency
+        // console.log(frequency)
+        // const endDate = startDate.setDate(startDate.getDate()+frequency)
+
+const endDate = dayjs(startDate).add(frequency, "day").format("YYYY-MM-DD");
+
+console.log(endDate);
+
+        const createCycle = await Cycle.create({ ...req.body ,
+        "endDate":endDate 
+      });
+    //    createCycle.nextStartDate = createCycle.endDate  
       res.status(200).json({ success: true, data: createCycle });
     } catch (error) {
       res.status(500).json({ success: false, message: "Error adding cycle" });

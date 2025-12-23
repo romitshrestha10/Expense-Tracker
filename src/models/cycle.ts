@@ -23,9 +23,13 @@ export class Cycle extends Model {
   @Column(DataType.DATE)
   startDate!: Date;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.DATE)
   endDate!: Date;
+
+   @AllowNull(true)
+  @Column(DataType.DATE)
+  nextStartDate!: Date;
 
     @AllowNull(false)
   @Column(DataType.ENUM("active", "completed"))
@@ -34,7 +38,11 @@ export class Cycle extends Model {
     @AllowNull(false)
   @Column(DataType.BOOLEAN)
   isSettled!: boolean;
-  
+
+   @AllowNull(false)
+  @Column(DataType.BIGINT)
+  frequency!: number;
+
   @HasMany(() => Expense, "expenseId")
   expenses!: Expense[];
 

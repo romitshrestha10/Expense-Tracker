@@ -1,9 +1,10 @@
 import { Router } from "express";
 import ExpenseController from "../controllers/expenseController";
 import authenticate from "../middleware/authMiddleware";
+import authorizeRoles from "../middleware/roleMiddleware";
 
 const router = Router();
-router.post("/", ExpenseController.postExpense);
+router.post("/",authenticate, authorizeRoles(["user","admin"]), ExpenseController.postExpense);
 router.post("/settle-expense", authenticate, ExpenseController.postExpense);
 
 router.get("/", ExpenseController.getAllExpense);
