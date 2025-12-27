@@ -26,7 +26,8 @@ const endDate = dayjs(startDate).add(frequency, "day").format("YYYY-MM-DD");
 console.log(endDate);
 
         const createCycle = await Cycle.create({ ...req.body ,
-        "endDate":endDate 
+        "endDate":endDate,
+        "nextStartDate": dayjs(endDate).add(1, "day").format("YYYY-MM-DD")
       });
     //    createCycle.nextStartDate = createCycle.endDate  
       res.status(200).json({ success: true, data: createCycle });
