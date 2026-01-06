@@ -7,6 +7,8 @@ const router = Router();
 router.get("/", CycleController.getAllCycle);
 router.post("/",authenticate, authorizeRoles(["user","admin"]), CycleController.postCycle);
 router.get("/scycle", CycleController.summaryCycle);
+router.get("/susers", CycleController.summaryUsers);
+
 
 // router.post("/", CycleController.postCycle);
 
