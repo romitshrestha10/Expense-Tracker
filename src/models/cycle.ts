@@ -43,6 +43,15 @@ export class Cycle extends Model {
   @Column(DataType.BIGINT)
   frequency!: number;
 
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  recurringExpense!: string;
+
+  @AllowNull(true)
+  @Column(DataType.BIGINT)
+  recurringExpenseAmount!: number;
+
+
   @HasMany(() => Expense, "expenseId")
   expenses!: Expense[];
 
