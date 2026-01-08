@@ -3,6 +3,7 @@ import { Cycle, Expense, User } from "../models";
 import { Op, Sequelize } from "sequelize";
 import { Operation } from "../middleware/practiseMiddleware";
 import Calculator from "../middleware/practiseMiddleware";
+import { currentCycleId } from "../utils/currentDate";
 
 class ExpenseController {
   async getAllExpense(req: Request, res: Response) {
@@ -24,8 +25,11 @@ class ExpenseController {
 
   async postExpense(req: Request, res: Response) {
     try {
+                  const cycleId = await currentCycleId()
+      
       const createExpense = await Expense.create({ ...req.body,
-        "userId":req.user?.id
+        "userId":req.user?.id,
+        "cycleId":cycleId
       });
 
       res.status(200).json({ success: true, data: createExpense });
