@@ -54,7 +54,6 @@ export class Expense extends Model {
 //   @Column(DataType.DATE)
 //   endDate!: Date;
 
-<<<<<<< HEAD
   @AllowNull(false)
   @Column(DataType.DATE)
   startDate!: Date;
@@ -69,14 +68,6 @@ export class Expense extends Model {
 
   //userId
   @AllowNull(true)
-=======
-//   @AllowNull(false)
-//   @Column(DataType.DATE)
-//   nextDueDate!: Date;
-  
-   //userId
-  @AllowNull(false)
->>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
   @ForeignKey(() => User)
   @Column({
     type: DataType.BIGINT,
@@ -88,12 +79,8 @@ export class Expense extends Model {
   @BelongsTo(() => User, "userId")
   user!: User;
 
-<<<<<<< HEAD
- @AllowNull(false)
-=======
  //cycleId
   @AllowNull(false)
->>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
   @ForeignKey(() => Cycle)
   @Column({
     type: DataType.BIGINT,

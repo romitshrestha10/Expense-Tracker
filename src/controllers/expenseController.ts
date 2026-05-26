@@ -3,10 +3,7 @@ import { Cycle, Expense, User } from "../models";
 import { Op, Sequelize } from "sequelize";
 import { Operation } from "../middleware/practiseMiddleware";
 import Calculator from "../middleware/practiseMiddleware";
-<<<<<<< HEAD
-=======
 import { currentCycleId } from "../utils/currentDate";
->>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
 
 class ExpenseController {
   async getAllExpense(req: Request, res: Response) {
@@ -14,16 +11,10 @@ class ExpenseController {
 
 
       const expense = await Expense.findAll({
-<<<<<<< HEAD
-        // include: [User],
-      });
-      console.log("err");
-=======
         "include": [User, Cycle]
       });
 
 
->>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
       res.status(200).json({ success: true, data: expense });
     } catch (error) {
       res
@@ -34,16 +25,12 @@ class ExpenseController {
 
   async postExpense(req: Request, res: Response) {
     try {
-<<<<<<< HEAD
-      const createExpense = await Expense.create({ ...req.body });
-=======
                   const cycleId = await currentCycleId()
       
       const createExpense = await Expense.create({ ...req.body,
         "userId":req.user?.id,
         "cycleId":cycleId
       });
->>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
 
       res.status(200).json({ success: true, data: createExpense });
     } catch (error) {
