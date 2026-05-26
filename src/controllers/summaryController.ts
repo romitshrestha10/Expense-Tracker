@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { Summary } from "../models";
+import { Expense, Summary, User } from "../models";
+import { Sequelize } from "sequelize";
 
 class SummaryController {
   async getAllSummary(req: Request, res: Response) {
@@ -19,6 +20,48 @@ class SummaryController {
       res.status(200).json({ success: true, data: createSummary });
     } catch (error) {
       res.status(500).json({ success: false, message: "Error adding summary" });
+    }
+  }
+
+   async calculate(req: Request, res: Response) {
+    try {
+    const totalExpenses = await Expense.sum("amount")
+    const userCount = await User.count()
+    const individualDistribution = totalExpenses/userCount;
+   const summary = await Expense.findAll({
+        attributes: [
+          "userId",
+          [Sequelize.fn("SUM", Sequelize.col("amount")), "totalAmount"],
+        ],
+        group: ["userId"],
+      });
+
+         const finalSummary = summary.map((item: any) => {
+      const userExpense = Number(item.get("totalAmount"));
+
+      const pendingAmount =
+        individualDistribution - userExpense;
+
+      return {
+        userId: item.userId,
+        userExpense,
+        individualDistribution,
+        pendingAmount,
+      };
+    });
+
+    res.status(200).json({
+      success: true,
+      totalExpenses,
+      userCount,
+      data: finalSummary,
+    });
+        
+
+      
+
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error loading summary" });
     }
   }
 }

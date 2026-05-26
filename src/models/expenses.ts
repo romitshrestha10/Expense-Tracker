@@ -11,6 +11,7 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import { User } from "./users";
+import { Cycle } from "./cycle";
 @Table({
   timestamps: true,
   tableName: "expense",
@@ -37,7 +38,7 @@ export class Expense extends Model {
   @Column(DataType.STRING)
   frequency!: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.BOOLEAN)
   isShared!: boolean;
 
@@ -66,7 +67,7 @@ export class Expense extends Model {
   nextDueDate!: Date;
 
   //userId
-  @AllowNull(false)
+  @AllowNull(true)
   @ForeignKey(() => User)
   @Column({
     type: DataType.BIGINT,
@@ -77,4 +78,17 @@ export class Expense extends Model {
 
   @BelongsTo(() => User, "userId")
   user!: User;
+
+ @AllowNull(false)
+  @ForeignKey(() => Cycle)
+  @Column({
+    type: DataType.BIGINT,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  cycleId!: number;
+
+  @BelongsTo(() => Cycle, "cycleId")
+  cycle!: Cycle;
+
 }

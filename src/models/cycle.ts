@@ -23,9 +23,13 @@ export class Cycle extends Model {
   @Column(DataType.DATE)
   startDate!: Date;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.DATE)
   endDate!: Date;
+
+  @AllowNull(true)
+  @Column(DataType.DATE)
+  nextDueDate!: Date;
 
   @HasMany(() => Expense, "expenseId")
   expenses!: Expense[];
