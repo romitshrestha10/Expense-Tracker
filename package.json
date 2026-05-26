@@ -25,12 +25,17 @@
   "dependencies": {
     "@sendgrid/mail": "^8.1.4",
     "bcrypt": "^5.1.1",
+    "dayjs": "^1.11.19",
     "dotenv": "^16.4.7",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.10.3",
     "nodemailer": "^6.10.0",
+<<<<<<< HEAD
     "nodemon": "^3.1.14",
+=======
+    "nodemon": "^3.1.11",
+>>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
     "sequelize": "^6.37.3",
     "sequelize-typescript": "^2.1.6"
   },

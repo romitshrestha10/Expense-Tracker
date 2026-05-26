@@ -27,10 +27,39 @@ export class Cycle extends Model {
   @Column(DataType.DATE)
   endDate!: Date;
 
+<<<<<<< HEAD
   @AllowNull(true)
   @Column(DataType.DATE)
   nextDueDate!: Date;
+=======
+   @AllowNull(true)
+  @Column(DataType.DATE)
+  nextStartDate!: Date;
+
+    @AllowNull(false)
+  @Column(DataType.ENUM("active", "completed"))
+  status!: string;
+
+    @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  isSettled!: boolean;
+
+   @AllowNull(false)
+  @Column(DataType.BIGINT)
+  frequency!: number;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  recurringExpense!: string;
+
+  @AllowNull(true)
+  @Column(DataType.BIGINT)
+  recurringExpenseAmount!: number;
+
+>>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
 
   @HasMany(() => Expense, "expenseId")
   expenses!: Expense[];
+
+
 }

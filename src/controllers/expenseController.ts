@@ -1,27 +1,49 @@
 import { Request, Response } from "express";
-import { Expense, User } from "../models";
+import { Cycle, Expense, User } from "../models";
 import { Op, Sequelize } from "sequelize";
 import { Operation } from "../middleware/practiseMiddleware";
 import Calculator from "../middleware/practiseMiddleware";
+<<<<<<< HEAD
+=======
+import { currentCycleId } from "../utils/currentDate";
+>>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
 
 class ExpenseController {
   async getAllExpense(req: Request, res: Response) {
     try {
+
+
       const expense = await Expense.findAll({
+<<<<<<< HEAD
         // include: [User],
       });
       console.log("err");
+=======
+        "include": [User, Cycle]
+      });
+
+
+>>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
       res.status(200).json({ success: true, data: expense });
     } catch (error) {
       res
         .status(500)
-        .json({ success: false, message: "Error fetching document" });
+        .json({ success: false, message: "Error Fetching Expense" });
     }
   }
 
   async postExpense(req: Request, res: Response) {
     try {
+<<<<<<< HEAD
       const createExpense = await Expense.create({ ...req.body });
+=======
+                  const cycleId = await currentCycleId()
+      
+      const createExpense = await Expense.create({ ...req.body,
+        "userId":req.user?.id,
+        "cycleId":cycleId
+      });
+>>>>>>> 5683216afd3a4760746f6d3c83b1b86c8f143ea3
 
       res.status(200).json({ success: true, data: createExpense });
     } catch (error) {
@@ -37,7 +59,7 @@ class ExpenseController {
       if (!expenseId) {
         res
           .status(404)
-          .json({ success: false, message: "Couldnot fin the expense" });
+          .json({ success: false, message: "Couldnot find the expense" });
       }
 
       const expense = await Expense.findByPk(expenseId);
@@ -116,50 +138,50 @@ class ExpenseController {
     }
   }
 
-  async updateRecurringExpense(req: Request, res: Response) {
-    try {
-      const recurringExpenses = await Expense.findAll({
-        where: {
-          type: "recurring",
-          nextDueDate: { [Op.lte]: new Date() },
-        },
-      });
+  // async updateRecurringExpense(req: Request, res: Response) {
+  //   try {
+  //     const recurringExpenses = await Expense.findAll({
+  //       where: {
+  //         type: "recurring",
+  //         nextDueDate: { [Op.lte]: new Date() },
+  //       },
+  //     });
 
-      for (const expense of recurringExpenses) {
-        await expense.update({ status: "completed" });
+  //     for (const expense of recurringExpenses) {
+  //       await expense.update({ status: "completed" });
 
-        let newNextDueDate = new Date(expense.nextDueDate);
+  //       let newNextDueDate = new Date(expense.nextDueDate);
 
-        if (expense.frequency === "monthly") {
-          newNextDueDate.setMonth(newNextDueDate.getMonth() + 1);
-        }
+  //       if (expense.frequency === "monthly") {
+  //         newNextDueDate.setMonth(newNextDueDate.getMonth() + 1);
+  //       }
 
-        if (expense.frequency === "weekly") {
-          newNextDueDate.setDate(newNextDueDate.getDate() + 7);
-        }
+  //       if (expense.frequency === "weekly") {
+  //         newNextDueDate.setDate(newNextDueDate.getDate() + 7);
+  //       }
 
-        if (expense.frequency === "daily") {
-          newNextDueDate.setDate(newNextDueDate.getDate() + 1);
-        }
+  //       if (expense.frequency === "daily") {
+  //         newNextDueDate.setDate(newNextDueDate.getDate() + 1);
+  //       }
 
-        await Expense.create({
-          userId: expense.userId,
-          amount: expense.amount,
-          category: expense.category,
-          type: "recurring",
-          frequency: expense.frequency,
-          startDate: expense.startDate,
-          nextDueDate: newNextDueDate, // New calculated date
-          status: "active",
-        });
-      }
+  //       await Expense.create({
+  //         userId: expense.userId,
+  //         amount: expense.amount,
+  //         category: expense.category,
+  //         type: "recurring",
+  //         frequency: expense.frequency,
+  //         startDate: expense.startDate,
+  //         nextDueDate: newNextDueDate, // New calculated date
+  //         status: "active",
+  //       });
+  //     }
 
-      res.json({ message: "Recurring expenses updated successfully" });
-    } catch (error) {
-      console.error("Error updating recurring expenses:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
+  //     res.json({ message: "Recurring expenses updated successfully" });
+  //   } catch (error) {
+  //     console.error("Error updating recurring expenses:", error);
+  //     res.status(500).json({ error: "Internal server error" });
+  //   }
+  // }
 
   async practise(req: Request, res: Response) {
     try {
