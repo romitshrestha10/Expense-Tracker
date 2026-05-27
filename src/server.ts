@@ -1,7 +1,7 @@
 import http from "http";
 import express from "express";
 import dotenv from "dotenv";
-
+import "./jobs/cycleJob"
 dotenv.config();
 import connection from "./db/db";
 import { routes } from "./router";

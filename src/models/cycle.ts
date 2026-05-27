@@ -23,6 +23,11 @@ export class Cycle extends Model {
   @Column(DataType.DATE)
   startDate!: Date;
 
+   @AllowNull(false)
+  @Column(DataType.FLOAT)
+  frequency!: number;
+
+
   @AllowNull(true)
   @Column(DataType.DATE)
   endDate!: Date;
