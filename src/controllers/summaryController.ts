@@ -25,7 +25,14 @@ class SummaryController {
 
    async calculate(req: Request, res: Response) {
     try {
-    const totalExpenses = await Expense.sum("amount")
+      const cycleId = req.params.cycleId
+
+    const totalExpenses = await Expense.sum("amount",{
+      where:
+      {
+        cycleId: cycleId
+      }
+    })
     const userCount = await User.count()
     const individualDistribution = totalExpenses/userCount;
    const summary = await Expense.findAll({
