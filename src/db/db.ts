@@ -9,8 +9,14 @@ const connection = new Sequelize({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: Number(process.env.DB_PORT),
+  port: Number(process.env.DB_PORT) || 3306,
   logging: false,
+    dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
   models: [User, Expense, sharedExpense, Summary, Cycle],
 });
 export default connection;
