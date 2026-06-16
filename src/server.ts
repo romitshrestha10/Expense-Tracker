@@ -19,6 +19,12 @@ application.get("/health", (req,res) => {
     message: "Expense TRacker API is running"
   })
 })
+application.get("/", (req, res) => {
+  res.json({
+    message: "Expense Tracker API is live",
+    health: "/health"
+  });
+});
   application.use("/", routes);
 
   connection
