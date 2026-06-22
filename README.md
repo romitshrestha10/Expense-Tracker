@@ -506,5 +506,4 @@ This project demonstrates practical experience with:
 
 **Romit Shrestha**
 
-GitHub: https://github.com/romitshrestha10  
-LinkedIn: Add your LinkedIn profile here
+
